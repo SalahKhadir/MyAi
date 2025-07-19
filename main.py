@@ -1,83 +1,91 @@
+"""
+AI Assistant Portfolio - Main Application
+Clean, modular Streamlit application with ChatGPT-like interface
+"""
+
 import streamlit as st
-from dotenv import load_dotenv
-import os
-import google.genai as genai
-import json
+from styles import get_custom_css
+from ai_client import AIClient
+from chat_manager import ChatManager
+from ui_components import render_sidebar, render_header
 
-# Load API key
-load_dotenv()
-genai_api_key = os.getenv("GEMINI_API_KEY")
+# Page Configuration
+st.set_page_config(
+    page_title="AI Assistant Portfolio",
+    page_icon="🤖",
+    layout="wide",
+    initial_sidebar_state="expanded"
+)
 
-# Initialize Gemini client
-client = genai.Client(api_key=genai_api_key)
+# Apply custom CSS
+st.markdown(get_custom_css(), unsafe_allow_html=True)
 
-# Check if this is an API request
-query_params = st.query_params
-is_api_request = query_params.get("api") == "true"
+# Initialize components
+ai_client = AIClient()
+chat_manager = ChatManager()
 
-if is_api_request:
-    # API mode - handle POST requests from frontend
-    st.set_page_config(page_title="API", layout="centered")
-    
-    # Add CORS headers
-    st.markdown("""
-    <script>
-    // Allow CORS for API requests
-    window.addEventListener('message', function(event) {
-        if (event.data.type === 'STREAMLIT_QUERY') {
-            event.source.postMessage({
-                type: 'STREAMLIT_RESPONSE',
-                data: 'CORS_ENABLED'
-            }, '*');
-        }
-    });
-    </script>
-    """, unsafe_allow_html=True)
-    
-    # Get the question from query params
-    question = query_params.get("question", "")
-    
-    if question:
-        try:
-            response = client.models.generate_content(
-                model="gemini-2.0-flash-exp", 
-                contents=question
-            )
-            result = {
-                "success": True,
-                "response": response.text,
-                "error": None
-            }
-        except Exception as e:
-            result = {
-                "success": False,
-                "response": None,
-                "error": str(e)
-            }
+# Render sidebar and check for navigation
+selected_page = render_sidebar()
+
+# Handle navigation
+if selected_page:
+    if selected_page == "chat":
+        # Stay on current chat page
+        pass
+    elif selected_page == "internships":
+        st.info("Internships page - Coming soon!")
+    elif selected_page == "projects":
+        st.info("Projects page - Coming soon!")
+    elif selected_page == "about":
+        st.info("About Me page - Coming soon!")
+    elif selected_page == "education":
+        st.info("Education page - Coming soon!")
+
+# Main content area
+st.markdown('<div class="chat-container">', unsafe_allow_html=True)
+
+# Render header
+render_header()
+
+# Display chat messages
+chat_manager.display_messages()
+
+st.markdown('</div>', unsafe_allow_html=True)
+
+# Input area (fixed at bottom)
+col1, col2 = st.columns([5, 1])
+
+with col1:
+    user_input = st.text_area(
+        "",
+        placeholder="Type your message here...",
+        key="user_input",
+        height=40,
+        label_visibility="collapsed"
+    )
+
+with col2:
+    send_button = st.button("Send", key="send_button")
+
+# Process user input
+if send_button and user_input.strip():
+    if ai_client.is_configured():
+        # Add user message
+        chat_manager.add_message("user", user_input)
         
-        # Display result as JSON for API consumption
-        st.json(result)
+        try:
+            # Generate AI response
+            with st.spinner("Generating response..."):
+                response = ai_client.generate_response(user_input)
+                chat_manager.add_message("assistant", response)
+            
+            # Clear input and refresh
+            st.rerun()
+            
+        except Exception as e:
+            st.error(f"Error: {str(e)}")
     else:
-        st.json({"success": False, "error": "No question provided"})
+        st.error("AI client not configured. Please check your API key.")
 
-else:
-    # Regular Streamlit UI mode
-    st.set_page_config(page_title="Gemini Chatbot 🤖", layout="centered")
-    st.title("💬 Ask Anything - Powered by Gemini")
-    
-    # Add API endpoint info
-    st.info("🔗 API Endpoint: Add `?api=true&question=YOUR_QUESTION` to the URL")
-
-    user_input = st.text_input("Type your question here:")
-
-    if st.button("Ask") and user_input:
-        with st.spinner("Thinking... 🤔"):
-            try:
-                response = client.models.generate_content(
-                    model="gemini-2.0-flash-exp", 
-                    contents=user_input
-                )
-                st.success("✅ Gemini says:")
-                st.markdown(response.text)
-            except Exception as e:
-                st.error(f"Error: {e}")
+elif send_button and not user_input.strip():
+    st.warning("Please enter a message.")
