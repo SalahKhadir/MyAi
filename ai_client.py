@@ -20,14 +20,6 @@ class AIClient:
         load_dotenv()
         self.api_key = os.getenv("GEMINI_API_KEY")
         
-        if not self.api_key:
-            # For deployment, try Streamlit secrets as fallback
-            try:
-                import streamlit as st
-                self.api_key = st.secrets.get("GEMINI_API_KEY")
-            except:
-                pass
-        
         if self.api_key:
             os.environ["GOOGLE_GENAI_API_KEY"] = self.api_key
             self.client = genai.Client(http_options=HttpOptions(api_version="v1"))
