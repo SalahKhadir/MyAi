@@ -60,19 +60,18 @@ if "input_counter" not in st.session_state:
     st.session_state.input_counter = 0
 
 with col1:
-    user_input = st.text_area(
+    user_input = st.text_input(
         "",
-        placeholder="Type your message here...",
+        placeholder="Type your message and press Enter...",
         key=f"user_input_{st.session_state.input_counter}",
-        height=40,
         label_visibility="collapsed"
     )
 
 with col2:
     send_button = st.button("Send", key="send_button")
 
-# Process user input
-if send_button and user_input.strip():
+# Process user input - text_input automatically triggers on Enter
+if user_input and user_input.strip():
     if ai_client.is_configured():
         # Add user message
         chat_manager.add_message("user", user_input)
