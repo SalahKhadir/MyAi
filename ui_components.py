@@ -14,7 +14,7 @@ def render_sidebar():
         
         # Navigation buttons
         nav_buttons = [
-            ("Chat with Mimir", "chat"),
+            ("Chat with LilSall", "chat"),
             ("Internships", "internships"),
             ("Projects", "projects"),
             ("About Me", "about"),
@@ -29,22 +29,51 @@ def render_sidebar():
         
         # Social links section
         st.markdown("<br><br>", unsafe_allow_html=True)
+        st.markdown("""
+        <div style="text-align: center;">
+            <h4 style="color: white; margin-bottom: 1rem;">Connect with Me</h4>
+        </div>
+        """, unsafe_allow_html=True)
         
-        # GitHub button
-        if st.button("GitHub", key="github_link", use_container_width=True):
-            st.markdown("""
-            <script>
-                window.open('https://github.com/SalahKhadir', '_blank');
-            </script>
-            """, unsafe_allow_html=True)
+        # GitHub link
+        st.markdown("""
+        <div style="text-align: center; margin-bottom: 0.5rem;">
+            <a href="https://github.com/SalahKhadir" target="_blank" style="
+                display: inline-block;
+                width: 80%;
+                padding: 0.5rem 1rem;
+                background: linear-gradient(135deg, #24292e, #333);
+                color: white;
+                text-decoration: none;
+                border-radius: 6px;
+                border: 1px solid #444;
+                text-align: center;
+                transition: all 0.3s ease;
+            ">
+                🐙 GitHub
+            </a>
+        </div>
+        """, unsafe_allow_html=True)
         
-        # LinkedIn button  
-        if st.button("LinkedIn", key="linkedin_link", use_container_width=True):
-            st.markdown("""
-            <script>
-                window.open('https://linkedin.com/in/your-profile', '_blank');
-            </script>
-            """, unsafe_allow_html=True)
+        # LinkedIn link
+        st.markdown("""
+        <div style="text-align: center; margin-bottom: 1rem;">
+            <a href="https://www.linkedin.com/in/salah-khadir" target="_blank" style="
+                display: inline-block;
+                width: 80%;
+                padding: 0.5rem 1rem;
+                background: linear-gradient(135deg, #0077b5, #005885);
+                color: white;
+                text-decoration: none;
+                border-radius: 6px;
+                border: 1px solid #004a6b;
+                text-align: center;
+                transition: all 0.3s ease;
+            ">
+                💼 LinkedIn
+            </a>
+        </div>
+        """, unsafe_allow_html=True)
         
         return selected_page
 

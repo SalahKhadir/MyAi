@@ -181,6 +181,45 @@ def get_custom_css():
             color: white;
         }
         
+        /* Social Links Hover Effects */
+        a[href*="github.com"]:hover {
+            background: linear-gradient(135deg, #333, #555) !important;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+        }
+        
+        a[href*="linkedin.com"]:hover {
+            background: linear-gradient(135deg, #005885, #0077b5) !important;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+        }
+        
+        /* Typing Animation Effects */
+        .typing-indicator {
+            animation: pulse 1.5s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { opacity: 0.6; }
+            50% { opacity: 1; }
+            100% { opacity: 0.6; }
+        }
+        
+        .message-appear {
+            animation: slideInUp 0.3s ease-out;
+        }
+        
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
         /* Padding for fixed input */
         .main .block-container {
             padding-bottom: 80px;

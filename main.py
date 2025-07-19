@@ -21,7 +21,7 @@ st.set_page_config(
 st.markdown(get_custom_css(), unsafe_allow_html=True)
 
 # Initialize components
-ai_client = AIClient()
+ai_client = AIClient(use_tuned_model=False)  # Set to True when tuned model is ready
 chat_manager = ChatManager()
 
 # Render sidebar and check for navigation
@@ -55,11 +55,15 @@ st.markdown('</div>', unsafe_allow_html=True)
 # Input area (fixed at bottom)
 col1, col2 = st.columns([5, 1])
 
+# Initialize input counter for clearing
+if "input_counter" not in st.session_state:
+    st.session_state.input_counter = 0
+
 with col1:
     user_input = st.text_area(
         "",
         placeholder="Type your message here...",
-        key="user_input",
+        key=f"user_input_{st.session_state.input_counter}",
         height=40,
         label_visibility="collapsed"
     )
@@ -74,12 +78,12 @@ if send_button and user_input.strip():
         chat_manager.add_message("user", user_input)
         
         try:
-            # Generate AI response
-            with st.spinner("Generating response..."):
-                response = ai_client.generate_response(user_input)
-                chat_manager.add_message("assistant", response)
+            # Generate AI response with animation
+            response = ai_client.generate_response(user_input)
+            chat_manager.add_message_with_animation("assistant", response)
             
-            # Clear input and refresh
+            # Increment counter to clear input and refresh
+            st.session_state.input_counter += 1
             st.rerun()
             
         except Exception as e:
