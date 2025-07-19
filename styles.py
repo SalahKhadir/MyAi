@@ -1,5 +1,5 @@
 """
-CSS styles for the AI Assistant Portfolio
+CSS styles for Salah Khadir's AI Assistant
 """
 
 def get_custom_css():

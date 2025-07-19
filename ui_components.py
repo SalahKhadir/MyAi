@@ -79,7 +79,16 @@ def render_sidebar():
 
 def render_header():
     """Render the main header"""
-    st.title("AI Assistant Portfolio")
+    st.markdown("""
+    <div style="text-align: center; margin-bottom: 2rem;">
+        <h1 style="color: white; margin-bottom: 0.5rem; font-size: 2.5rem;">
+            Salah Khadir's AI Assistant
+        </h1>
+        <p style="color: #888; font-size: 1.1rem; margin: 0;">
+            Powered by LilSall • Portfolio & Professional Information
+        </p>
+    </div>
+    """, unsafe_allow_html=True)
     st.markdown("---")
 
 def render_input_area():

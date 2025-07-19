@@ -1,5 +1,5 @@
 """
-AI Assistant Portfolio - Main Application
+Salah Khadir's AI Assistant - Main Application
 Clean, modular Streamlit application with ChatGPT-like interface
 """
 
@@ -11,7 +11,7 @@ from ui_components import render_sidebar, render_header
 
 # Page Configuration
 st.set_page_config(
-    page_title="AI Assistant Portfolio",
+    page_title="Salah Khadir's AI Assistant",
     page_icon="🤖",
     layout="wide",
     initial_sidebar_state="expanded"
