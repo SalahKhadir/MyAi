@@ -8,6 +8,7 @@ from styles import get_custom_css
 from ai_client import AIClient
 from chat_manager import ChatManager
 from ui_components import render_sidebar, render_header
+from internships_page import render_internships_page
 
 # Page Configuration
 st.set_page_config(
@@ -27,68 +28,63 @@ chat_manager = ChatManager()
 # Render sidebar and check for navigation
 selected_page = render_sidebar()
 
+# Initialize show_chat flag
+show_chat = True
+
 # Handle navigation
 if selected_page:
     if selected_page == "chat":
-        # Stay on current chat page
-        pass
+        # Stay on current chat page - show chat interface
+        show_chat = True
     elif selected_page == "internships":
-        st.info("Internships page - Coming soon!")
+        render_internships_page()
+        show_chat = False
     elif selected_page == "projects":
         st.info("Projects page - Coming soon!")
+        show_chat = False
     elif selected_page == "about":
         st.info("About Me page - Coming soon!")
+        show_chat = False
     elif selected_page == "education":
         st.info("Education page - Coming soon!")
+        show_chat = False
 
-# Main content area
-st.markdown('<div class="chat-container">', unsafe_allow_html=True)
+# Only show chat interface if not on another page
+if show_chat:
+    # Main content area - Simple chat interface
+    # Display chat messages and get suggestion if clicked
+    suggested_question = chat_manager.display_messages()
 
-# Render header
-render_header()
-
-# Display chat messages
-chat_manager.display_messages()
-
-st.markdown('</div>', unsafe_allow_html=True)
-
-# Input area (fixed at bottom)
-col1, col2 = st.columns([5, 1])
-
-# Initialize input counter for clearing
-if "input_counter" not in st.session_state:
-    st.session_state.input_counter = 0
-
-with col1:
-    user_input = st.text_input(
-        "",
-        placeholder="Type your message and press Enter...",
-        key=f"user_input_{st.session_state.input_counter}",
-        label_visibility="collapsed"
-    )
-
-with col2:
-    send_button = st.button("Send", key="send_button")
-
-# Process user input - text_input automatically triggers on Enter
-if user_input and user_input.strip():
-    if ai_client.is_configured():
-        # Add user message
-        chat_manager.add_message("user", user_input)
-        
-        try:
-            # Generate AI response with animation
-            response = ai_client.generate_response(user_input)
-            chat_manager.add_message_with_animation("assistant", response)
+    # Handle suggestion clicks
+    if suggested_question:
+        if ai_client.is_configured():
+            # Add user message
+            chat_manager.add_message("user", suggested_question)
             
-            # Increment counter to clear input and refresh
-            st.session_state.input_counter += 1
-            st.rerun()
-            
-        except Exception as e:
-            st.error(f"Error: {str(e)}")
-    else:
-        st.error("AI client not configured. Please check your API key.")
+            try:
+                # Generate AI response
+                response = ai_client.generate_response(suggested_question)
+                chat_manager.add_message("assistant", response)
+                st.rerun()
+                
+            except Exception as e:
+                st.error(f"Error: {str(e)}")
+        else:
+            st.error("AI client not configured. Please check your API key.")
 
-elif send_button and not user_input.strip():
-    st.warning("Please enter a message.")
+    # User input - simple chat input
+    if prompt := st.chat_input("Type your message..."):
+        if ai_client.is_configured():
+            # Add user message
+            chat_manager.add_message("user", prompt)
+            
+            try:
+                # Generate AI response
+                response = ai_client.generate_response(prompt)
+                chat_manager.add_message("assistant", response)
+                st.rerun()
+                
+            except Exception as e:
+                st.error(f"Error: {str(e)}")
+        else:
+            st.error("AI client not configured. Please check your API key.")

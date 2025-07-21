@@ -78,18 +78,9 @@ def render_sidebar():
         return selected_page
 
 def render_header():
-    """Render the main header"""
-    st.markdown("""
-    <div style="text-align: center; margin-bottom: 2rem;">
-        <h1 style="color: white; margin-bottom: 0.5rem; font-size: 2.5rem;">
-            Salah Khadir's AI Assistant
-        </h1>
-        <p style="color: #888; font-size: 1.1rem; margin: 0;">
-            Powered by LilSall • Portfolio & Professional Information
-        </p>
-    </div>
-    """, unsafe_allow_html=True)
-    st.markdown("---")
+    """Render simple chat interface - no extra sections"""
+    # Just display chat messages - no header needed
+    pass
 
 def render_input_area():
     """Render the input area at the bottom"""

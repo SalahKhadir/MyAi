@@ -31,12 +31,53 @@ class ChatManager:
         st.session_state.messages = []
     
     def display_messages(self):
-        """Display all chat messages"""
+        """Display all chat messages using native Streamlit chat"""
+        # Show welcome screen if no messages
+        if not st.session_state.messages:
+            return self._display_welcome_screen()
+        
+        # Display chat messages
         for message in st.session_state.messages:
-            if message["role"] == "user":
-                self._display_user_message(message["content"])
-            else:
-                self._display_assistant_message(message["content"])
+            with st.chat_message(message["role"]):
+                st.write(message["content"])
+        
+        return None
+    
+    def _display_welcome_screen(self):
+        """Display welcome screen with title and suggestions"""
+        st.markdown("""
+        <div style="text-align: center; padding: 3rem 0 2rem 0;">
+            <h1 style="color: white; font-size: 2.5rem; margin-bottom: 1rem;">
+                Salah's AI Assistant
+            </h1>
+            <p style="color: #888; font-size: 1.1rem; margin-bottom: 2rem;">
+                Ask me anything about Salah Khadir's experience, skills, and projects
+            </p>
+        </div>
+        """, unsafe_allow_html=True)
+        
+        st.markdown("""
+        <div style="text-align: center; margin-bottom: 2rem;">
+            <h3 style="color: white; margin-bottom: 1rem;">Recommended questions:</h3>
+        </div>
+        """, unsafe_allow_html=True)
+        
+        # Create suggestion buttons in columns
+        col1, col2 = st.columns(2)
+        
+        with col1:
+            if st.button("Tell me about Salah's projects", key="suggestion_1", use_container_width=True):
+                return "Tell me about Salah's projects"
+            if st.button("What skills does Salah have?", key="suggestion_2", use_container_width=True):
+                return "What skills does Salah have?"
+        
+        with col2:
+            if st.button("Describe Salah's academic background", key="suggestion_3", use_container_width=True):
+                return "Describe Salah's academic background"
+            if st.button("What are Salah's main interests?", key="suggestion_4", use_container_width=True):
+                return "What are Salah's main interests?"
+        
+        return None
     
     def _display_user_message(self, content):
         """Display user message with styling"""
