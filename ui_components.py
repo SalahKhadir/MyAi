@@ -7,8 +7,8 @@ def render_sidebar():
     """Render the navigation sidebar"""
     with st.sidebar:
         st.markdown("""
-        <div style="text-align: center; padding: 2rem 0 1rem 0;">
-            <h2 style="color: white; margin-bottom: 2rem;">Navigation</h2>
+        <div style="text-align: center; padding: 0.25rem 0 1rem 0;">
+            <h2 style="color: white; margin-bottom: 1.5rem; margin-top: 0; padding-top: 0;">Navigation</h2>
         </div>
         """, unsafe_allow_html=True)
         
@@ -38,19 +38,8 @@ def render_sidebar():
         # GitHub link
         st.markdown("""
         <div style="text-align: center; margin-bottom: 0.5rem;">
-            <a href="https://github.com/SalahKhadir" target="_blank" style="
-                display: inline-block;
-                width: 80%;
-                padding: 0.5rem 1rem;
-                background: linear-gradient(135deg, #24292e, #333);
-                color: white;
-                text-decoration: none;
-                border-radius: 6px;
-                border: 1px solid #444;
-                text-align: center;
-                transition: all 0.3s ease;
-            ">
-                🐙 GitHub
+            <a href="https://github.com/SalahKhadir" target="_blank">
+                GitHub
             </a>
         </div>
         """, unsafe_allow_html=True)
@@ -58,19 +47,8 @@ def render_sidebar():
         # LinkedIn link
         st.markdown("""
         <div style="text-align: center; margin-bottom: 1rem;">
-            <a href="https://www.linkedin.com/in/salah-khadir" target="_blank" style="
-                display: inline-block;
-                width: 80%;
-                padding: 0.5rem 1rem;
-                background: linear-gradient(135deg, #0077b5, #005885);
-                color: white;
-                text-decoration: none;
-                border-radius: 6px;
-                border: 1px solid #004a6b;
-                text-align: center;
-                transition: all 0.3s ease;
-            ">
-                💼 LinkedIn
+            <a href="https://www.linkedin.com/in/salah-khadir" target="_blank">
+                LinkedIn
             </a>
         </div>
         """, unsafe_allow_html=True)

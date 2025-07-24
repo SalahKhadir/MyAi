@@ -13,7 +13,7 @@ from internships_page import render_internships_page
 # Page Configuration
 st.set_page_config(
     page_title="Salah Khadir's AI Assistant",
-    page_icon="🤖",
+    page_icon="⚡",
     layout="wide",
     initial_sidebar_state="expanded"
 )
