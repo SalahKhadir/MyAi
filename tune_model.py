@@ -37,9 +37,11 @@ def main():
     
     if ai_client.is_configured():
         test_queries = [
-            "Who is Salah Khadir?",
-            "What are his technical skills?",
-            "Tell me about his projects"
+            "Describe Salah's academic background",
+            "Tell me about his projects",
+            "What makes him a great developer?",
+            "What is EcoTrace?",
+            "Tell me about the CGI AI Chatbot project"
         ]
         
         for query in test_queries:
@@ -85,11 +87,30 @@ def test_portfolio_responses():
     ai_client = AIClient()
     
     portfolio_questions = [
-        "What makes Salah a great developer?",
+        "Where is Salah from and how old is he?",
+        "What programming languages does Salah know?",
+        "Tell me about EcoTrace project",
+        "What is SkillSync?",
+        "Tell me about the Pharmacy Management System",
+        "What makes Salah stand out as a developer?",
         "How can I hire Salah?",
         "What's Salah's experience with AI?",
-        "Tell me about Salah's GitHub",
-        "What technologies does Salah use?"
+        "Tell me about his internship at CGI",
+        "What technologies does Salah use for AI projects?",
+        "What are Salah's career goals?",
+        "Why should I hire Salah?",
+        "What makes his projects special?",
+        "Tell me about his GitHub portfolio",
+        # Personal life questions to test enhanced training data
+        "What does Salah enjoy doing in his free time?",
+        "What motivated Salah to choose Computer Engineering?",
+        "What sports does Salah play and what are his hobbies?",
+        "Tell me about Salah's personality and what makes him unique",
+        "What languages does Salah speak and where is he from exactly?",
+        "When was Salah born and where did he grow up?",
+        "What's Salah's favorite anime and what music does he like?",
+        "How did Salah start programming and what was his first language?",
+        "What does Salah find most satisfying about programming?"
     ]
     
     for question in portfolio_questions:

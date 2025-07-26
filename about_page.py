@@ -213,22 +213,22 @@ def render_about_page():
     
     passion_items = [
         {
-            "icon": "🤖",
+            "icon": "",
             "title": "Artificial Intelligence",
             "description": "Exploring the potential of AI to transform industries and solve complex real-world problems through innovative applications."
         },
         {
-            "icon": "💻",
+            "icon": "",
             "title": "Full-Stack Development",
             "description": "Building end-to-end solutions that combine beautiful user interfaces with robust backend systems and databases."
         },
         {
-            "icon": "🌱",
+            "icon": "",
             "title": "Continuous Learning",
             "description": "Staying updated with emerging technologies and best practices to deliver modern, efficient, and scalable solutions."
         },
         {
-            "icon": "🚀",
+            "icon": "",
             "title": "Innovation & Impact",
             "description": "Creating technology solutions that make a meaningful difference in people's lives and contribute to digital transformation."
         }
