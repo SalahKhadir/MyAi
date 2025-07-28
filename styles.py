@@ -31,23 +31,42 @@ def get_custom_css():
             display: none !important;
         }
         
-        /* Hide header */
+        /* Keep header visible but style it nicely */
         header[data-testid="stHeader"] {
-            height: 0 !important;
-            display: none !important;
+            background-color: #1a1a1a !important;
+            height: auto !important;
         }
         
-        /* Sidebar - Fixed height, no scrolling */
+        /* Style the header toolbar to match our theme */
+        header[data-testid="stHeader"] .stActionButton {
+            background-color: #262730 !important;
+            color: #FAFAFA !important;
+        }
+        
+        /* Style the sidebar toggle button specifically */
+        header[data-testid="stHeader"] button[kind="header"] {
+            background-color: #60a5fa !important;
+            color: white !important;
+            border: none !important;
+            border-radius: 6px !important;
+        }
+        
+        header[data-testid="stHeader"] button[kind="header"]:hover {
+            background-color: #3b82f6 !important;
+        }
+        
+        /* Sidebar - Scrollable navigation */
         .stSidebar {
             background-color: #262730 !important;
             height: 100vh !important;
-            overflow: hidden !important;
+            overflow-y: auto !important;
+            overflow-x: hidden !important;
         }
         
         .stSidebar > div {
             background-color: #262730 !important;
-            height: 100vh !important;
-            overflow: hidden !important;
+            height: auto !important;
+            overflow: visible !important;
             padding-bottom: 2rem !important;
             padding-top: 0 !important;
         }
@@ -55,15 +74,15 @@ def get_custom_css():
         .stSidebar .block-container {
             padding-top: 0 !important;
             padding-bottom: 1rem !important;
-            max-height: 100vh !important;
-            overflow: hidden !important;
+            height: auto !important;
+            overflow: visible !important;
         }
         
         /* Remove top margin from sidebar content */
         .stSidebar [data-testid="stVerticalBlock"] {
             padding-top: 0 !important;
             margin-top: 0 !important;
-            overflow: hidden !important;
+            overflow: visible !important;
         }
         
         /* Remove top spacing from first element in sidebar */
@@ -89,12 +108,35 @@ def get_custom_css():
             padding-top: 0 !important;
         }
         
-        /* Hide scrollbars completely */
+        /* Custom scrollbar styling for sidebar */
         .stSidebar::-webkit-scrollbar {
+            width: 8px !important;
+        }
+        
+        .stSidebar::-webkit-scrollbar-track {
+            background: #1a1a1a !important;
+            border-radius: 4px !important;
+        }
+        
+        .stSidebar::-webkit-scrollbar-thumb {
+            background: #4A4A4A !important;
+            border-radius: 4px !important;
+        }
+        
+        .stSidebar::-webkit-scrollbar-thumb:hover {
+            background: #666666 !important;
+        }
+        
+        /* Hide scrollbars on nested sidebar elements */
+        .stSidebar > div::-webkit-scrollbar {
             display: none !important;
         }
         
-        .stSidebar > div::-webkit-scrollbar {
+        .stSidebar .block-container::-webkit-scrollbar {
+            display: none !important;
+        }
+        
+        .stSidebar [data-testid="stVerticalBlock"]::-webkit-scrollbar {
             display: none !important;
         }
         
@@ -191,6 +233,7 @@ def get_custom_css():
             border-radius: 12px !important;
             margin: 1rem 0 !important;
             padding: 1rem !important;
+            animation: messageAppear 0.3s ease-out !important;
         }
         
         .stChatMessage [data-testid="chatAvatarIcon-user"] {
@@ -199,6 +242,50 @@ def get_custom_css():
         
         .stChatMessage [data-testid="chatAvatarIcon-assistant"] {
             background-color: #2196F3 !important;
+        }
+        
+        /* Message appearance animation */
+        @keyframes messageAppear {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Typing indicator styling */
+        .stChatMessage em {
+            color: #888 !important;
+            font-style: italic !important;
+            animation: pulse 1.5s ease-in-out infinite !important;
+        }
+        
+        /* Pulsing animation for typing indicator */
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.5;
+            }
+        }
+        
+        /* Disable chat input when generating */
+        .stChatInput[data-disabled="true"] {
+            opacity: 0.5 !important;
+            pointer-events: none !important;
+        }
+        
+        /* Spinner styling for better loading state */
+        .stSpinner {
+            text-align: center !important;
+        }
+        
+        .stSpinner > div {
+            border-color: #60a5fa transparent #60a5fa transparent !important;
         }
         
         /* Ensure all text is visible - but preserve custom colors */

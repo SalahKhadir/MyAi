@@ -70,33 +70,40 @@ if show_chat:
     # Handle suggestion clicks
     if suggested_question:
         if ai_client.is_configured():
-            # Add user message
+            # Add user message and set generating state
             chat_manager.add_message("user", suggested_question)
-            
-            try:
-                # Generate AI response
-                response = ai_client.generate_response(suggested_question)
-                chat_manager.add_message("assistant", response)
-                st.rerun()
-                
-            except Exception as e:
-                st.error(f"Error: {str(e)}")
+            chat_manager.set_generating_state(True)
+            st.rerun()
         else:
             st.error("AI client not configured. Please check your API key.")
 
     # User input - simple chat input
     if prompt := st.chat_input("Type your message..."):
         if ai_client.is_configured():
-            # Add user message
+            # Add user message and set generating state
             chat_manager.add_message("user", prompt)
-            
-            try:
-                # Generate AI response
-                response = ai_client.generate_response(prompt)
-                chat_manager.add_message("assistant", response)
-                st.rerun()
-                
-            except Exception as e:
-                st.error(f"Error: {str(e)}")
+            chat_manager.set_generating_state(True)
+            st.rerun()
         else:
             st.error("AI client not configured. Please check your API key.")
+    
+    # Generate response if we're in generating state
+    if chat_manager.is_generating():
+        messages = chat_manager.get_messages()
+        if messages and messages[-1]["role"] == "user":
+            if ai_client.is_configured():
+                try:
+                    # Generate AI response
+                    response = ai_client.generate_response(messages[-1]["content"])
+                    
+                    # Add response and clear generating state
+                    chat_manager.add_message("assistant", response)
+                    chat_manager.set_generating_state(False)
+                    st.rerun()
+                    
+                except Exception as e:
+                    chat_manager.set_generating_state(False)
+                    st.error(f"Error: {str(e)}")
+            else:
+                chat_manager.set_generating_state(False)
+                st.error("AI client not configured. Please check your API key.")

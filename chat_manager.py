@@ -12,8 +12,10 @@ class ChatManager:
         """Initialize chat history in session state"""
         if "messages" not in st.session_state:
             st.session_state.messages = []
-        if "typing_animation" not in st.session_state:
-            st.session_state.typing_animation = False
+        if "is_generating" not in st.session_state:
+            st.session_state.is_generating = False
+        if "pending_response" not in st.session_state:
+            st.session_state.pending_response = False
     
     def add_message(self, role, content):
         """Add a message to chat history"""
@@ -40,6 +42,11 @@ class ChatManager:
         for message in st.session_state.messages:
             with st.chat_message(message["role"]):
                 st.write(message["content"])
+        
+        # Show typing indicator if AI is generating response
+        if st.session_state.get("is_generating", False):
+            with st.chat_message("assistant"):
+                st.write("*Thinking...*")
         
         return None
     
@@ -97,25 +104,10 @@ class ChatManager:
         </div>
         """, unsafe_allow_html=True)
 
-    def display_typing_animation(self):
-        """Display typing animation for AI response"""
-        typing_placeholder = st.empty()
-        
-        # Show thinking animation
-        typing_placeholder.markdown(f"""
-        <div class="assistant-message typing-indicator">
-            <strong>LilSall:</strong><br>
-            <span style="color: #888;">💭 Thinking...</span>
-        </div>
-        """, unsafe_allow_html=True)
-        
-        # Short delay for effect
-        time.sleep(0.8)
-        typing_placeholder.empty()
-
-    def add_message_with_animation(self, role, content):
-        """Add message with typing animation for assistant"""
-        if role == "assistant":
-            self.display_typing_animation()
-        
-        self.add_message(role, content)
+    def set_generating_state(self, is_generating):
+        """Set the generating state for typing indicator"""
+        st.session_state.is_generating = is_generating
+    
+    def is_generating(self):
+        """Check if AI is currently generating a response"""
+        return st.session_state.get("is_generating", False)
